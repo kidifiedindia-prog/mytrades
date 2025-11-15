@@ -1,4 +1,5 @@
 from flask import Flask, request
+import os
 
 # Create a basic Flask app
 app = Flask(__name__)
@@ -16,3 +17,10 @@ def tv_signal():
     print("Received TradingView signal:", body_text)
     # For now just return OK
     return "OK"
+
+# This part actually starts the web server on Render
+if __name__ == "__main__":
+    # Render provides the PORT environment variable
+    port = int(os.environ.get("PORT", 10000))
+    # Listen on all interfaces so Render can route traffic
+    app.run(host="0.0.0.0", port=port)
